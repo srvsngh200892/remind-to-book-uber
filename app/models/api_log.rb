@@ -5,7 +5,7 @@ class ApiLog < ActiveRecord::Base
 	end	
 
 	def self.all_logs
-		ApiLog.select(:logs).all.map(&:logs)
+		ApiLog.all.order("id DESC").map(&:logs)
 	end	
 
 end	

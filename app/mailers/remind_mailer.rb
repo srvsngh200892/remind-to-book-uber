@@ -7,7 +7,7 @@ class RemindMailer < ActionMailer::Base
 	end
 
 	def time_to_book(details)
-		email = details.values_at("email")
+		email, @pickup_estimate = details.values_at("email","pickup_estimate")
 		mail(to: email, subject: "Hey!! It's time to book an Uber. }")
 	end
 end	

@@ -6,7 +6,7 @@ class OneTimeJob
 
     return if user_data.email_sent == 1
 
-    pickup_estimate = UberApi.get_uber_pickup(user_data.source_lat, user_data.source_lng)
+    pickup_estimate = UberApi.get_uber_pickup(user_data.source_lat, user_data.source_lng, user_data.email)
 
     time_estimate = GoogleApi.get_time_to_travel(user_data.source_lat, user_data.source_lng , user_data.des_lat, user_data.des_lng, user_data.email)
     
@@ -14,7 +14,7 @@ class OneTimeJob
     if ((user_data.time_to_reach - (time_estimate.minutes + pickup_estimate.seconds)) - Time.zone.now) < 5.minutes
       
       #send email
-      details = {"email"=> user_data.email}
+      details = {"email"=> user_data.email, "pickup_estimate"=>pickup_estimate}
       CommunicationWorker.perform_async("time_to_book",details)
       user_data.email_sent = 1
       user_data.save
