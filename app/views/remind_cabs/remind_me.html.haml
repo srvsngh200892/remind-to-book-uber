@@ -1,0 +1,60 @@
+.row.margin10
+.row.background
+  %h2.col-sm-12.text-center
+    Remind me When to book an Uber
+.well.whiteBack
+  = form_for @user_data, url: remind_cabs_path, html: {class: 'form-horizontal'} do |f|
+    - if @user_data.errors.any?
+      #error_explanation
+        %h4= "#{pluralize(@user_data.errors.count, "error")} prohibited this data from being saved:"
+        %ul
+          - @user_data.errors.full_messages.each do |msg|
+            %li= msg
+
+    .row
+      .col-md-6
+        .form-group
+          = f.label :source_lat, class: 'control-label col-md-2'
+          .col-md-10
+            = f.text_field :source_lat, class: 'form-control'
+      .col-md-6
+        .form-group
+          = f.label :source_lng, class: 'control-label col-md-2'
+          .col-md-10
+            = f.text_field :source_lng, class: 'form-control'
+    .row
+      .col-md-6
+        .form-group
+          = f.label :destination_lat, class: 'control-label col-md-2'
+          .col-md-10
+            = f.text_field :des_lat, class: 'form-control'
+      .col-md-6
+        .form-group
+          = f.label :destination_lng, class: 'control-label col-md-2'
+          .col-md-10
+            = f.text_field :des_lng, class: 'form-control'
+
+    .row{ :style=> "position: relative"}
+      .col-md-6
+        .form-group
+          = f.label :Reach_Time, class: 'control-label col-md-2' , style: "position: relative"
+          .col-md-10
+            = f.text_field :time_to_reach, class: 'form-control' , id: 'datetimepicker1'
+      .col-md-6  
+        .form-group
+          = f.label :email, class: 'control-label col-md-2'
+          .col-md-10
+            = f.text_field :email, class: 'form-control'                      
+    .row
+      .col-md-12.text-center
+        = submit_tag "Remind me", :class=> 'btn btn-primary'
+ 
+.table-responsive.div-table-content  
+  %table.table-condensed.table-bordered  
+    %thead
+      %th Logs
+
+    %tbody.pointerCursor
+      - ApiLog.all_logs.each do |log|
+        %tr
+          %td= log       
